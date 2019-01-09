@@ -1,5 +1,5 @@
 {
-  "name": "australiangreens/au.org.greens.logexport",
+  "name": "australian_greens/au.org.greens.logexport",
   "type": "drupal-module",
   "description": "CiviCRM Extension to log CiviCRM Exports",
   "author": [
