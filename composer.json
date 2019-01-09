@@ -1,0 +1,15 @@
+{
+  "name": "australiangreens/au.org.greens.logexport",
+  "type": "drupal-module",
+  "description": "CiviCRM Extension to log CiviCRM Exports",
+  "author": [
+    {
+      "name": "Seamus Lee",
+      "email": "seamus@nsw.greens.org.au"
+    }
+  ],
+  "require": {
+     "composer/installers": "~1.0",
+     "drupal/drupal": "~7"
+   }
+}
