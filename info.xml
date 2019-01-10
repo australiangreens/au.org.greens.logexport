@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <extension key="au.org.greens.logexport" type="module">
   <file>logexport</file>
-  <name>LogExport</name>
+  <name>Log CiviCRM Export</name>
   <description>Log CiviCRM Exports</description>
   <license>AGPL-3.0</license>
   <maintainer>
@@ -16,11 +16,11 @@
   </urls>
   <releaseDate>2019-01-10</releaseDate>
   <version>1.0</version>
-  <develStage>alpha</develStage>
+  <develStage>stable</develStage>
   <compatibility>
-    <ver>5.0</ver>
+    <ver>5.8</ver>
   </compatibility>
-  <comments>This is a new, undeveloped module</comments>
+  <comments></comments>
   <civix>
     <namespace>CRM/Logexport</namespace>
   </civix>
