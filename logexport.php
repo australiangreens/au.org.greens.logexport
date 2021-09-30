@@ -10,6 +10,12 @@ use CRM_Logexport_ExtensionUtil as E;
  */
 function logexport_civicrm_config(&$config) {
   _logexport_civix_civicrm_config($config);
+
+  if (isset(Civi::$statics[__FUNCTION__])) { return; }
+  Civi::$statics[__FUNCTION__] = 1;
+
+  // Run with a high priority, to run before other export hooks which may halt execution
+  Civi::dispatcher()->addListener('hook_civicrm_export', '_logexport_civicrm_export', 500);
 }
 
 /**
@@ -135,13 +141,11 @@ function logexport_civicrm_entityTypes(&$entityTypes) {
 }
 
 /**
- * Implements hook_civicrm_export().
- *
- * Declare entity types provided by this module.
+ * Implements hook_civicrm_export() using Symfony hooks.
  *
  * @link https://docs.civicrm.org/dev/en/latest/hooks/hook_civicrm_export/
  */
-function logexport_civicrm_export(&$exportTempTable, &$headerRows, &$sqlColumns, &$exportMode, &$componentTable, &$ids) {
+function _logexport_civicrm_export($event) {
   $form = new CRM_Core_Form();
   $fileName = CRM_Core_Error::createDebugLogger('Export_Log');
   $exportTypes = [
@@ -154,37 +158,8 @@ function logexport_civicrm_export(&$exportTempTable, &$headerRows, &$sqlColumns,
     7 => 'Grant',
     8 => 'Activity',
   ];
-  $printExportMode = $exportTypes[$exportMode];
-  $printHeaderRows = json_encode($headerRows);
-  $printIds = json_encode($ids);
+  $printExportMode = $exportTypes[$event->exportMode];
+  $printHeaderRows = json_encode($event->headerRows);
+  $printIds = json_encode($event->ids);
   $fileName->log("User {$form->getLoggedInUserContactID()} Just did an export of type {$printExportMode} with the following Header Rows {$printHeaderRows} involving the following IDs {$printIds}");
 }
-
-
-// --- Functions below this ship commented out. Uncomment as required. ---
-
-/**
- * Implements hook_civicrm_preProcess().
- *
- * @link http://wiki.civicrm.org/confluence/display/CRMDOC/hook_civicrm_preProcess
- *
-function logexport_civicrm_preProcess($formName, &$form) {
-
-} // */
-
-/**
- * Implements hook_civicrm_navigationMenu().
- *
- * @link http://wiki.civicrm.org/confluence/display/CRMDOC/hook_civicrm_navigationMenu
- *
-function logexport_civicrm_navigationMenu(&$menu) {
-  _logexport_civix_insert_navigation_menu($menu, 'Mailings', array(
-    'label' => E::ts('New subliminal message'),
-    'name' => 'mailing_subliminal_message',
-    'url' => 'civicrm/mailing/subliminal',
-    'permission' => 'access CiviMail',
-    'operator' => 'OR',
-    'separator' => 0,
-  ));
-  _logexport_civix_navigationMenu($menu);
-} // */
