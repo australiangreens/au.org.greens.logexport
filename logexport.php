@@ -142,7 +142,6 @@ function logexport_civicrm_entityTypes(&$entityTypes) {
  * @link https://docs.civicrm.org/dev/en/latest/hooks/hook_civicrm_export/
  */
 function logexport_civicrm_export(&$exportTempTable, &$headerRows, &$sqlColumns, &$exportMode, &$componentTable, &$ids) {
-  $form = new CRM_Core_Form();
   $fileName = CRM_Core_Error::createDebugLogger('Export_Log');
   $exportTypes = [
     1 => 'Contact',
@@ -157,7 +156,8 @@ function logexport_civicrm_export(&$exportTempTable, &$headerRows, &$sqlColumns,
   $printExportMode = $exportTypes[$exportMode];
   $printHeaderRows = json_encode($headerRows);
   $printIds = json_encode($ids);
-  $fileName->log("User {$form->getLoggedInUserContactID()} Just did an export of type {$printExportMode} with the following Header Rows {$printHeaderRows} involving the following IDs {$printIds}");
+  $userID = CRM_Core_Session::getLoggedInContactID();
+  $fileName->log("User {$userID} Just did an export of type {$printExportMode} with the following Header Rows {$printHeaderRows} involving the following IDs {$printIds}");
 }
 
 
